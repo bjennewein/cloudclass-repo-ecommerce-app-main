@@ -16,7 +16,8 @@ def get_products():
             "description": p.description,
             "price": p.price,
             "stock": p.stock,
-            "image_url": p.image_url
+            "image_url": p.image_url,
+            "status": "Low stock" if p.stock <= 5 else "In stock"
         }
         for p in all_products
     ])
