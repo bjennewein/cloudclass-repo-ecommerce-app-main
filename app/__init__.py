@@ -23,6 +23,15 @@ def create_app():
     app.register_blueprint(auth)
     app.register_blueprint(products)
 
+    @app.route("/")
+    def home():
+        return """
+        <h1>Welcome to My Ecommerce App</h1>
+        <p>This app includes user authentication and product management.</p>
+        <p><strong>New feature added:</strong> low-stock product status.</p>
+        <p>To view product data, go to <a href="/products">/products</a>.</p>
+        """
+
     with app.app_context():
         db.create_all()
 
