@@ -18,3 +18,28 @@ class Product(db.Model):
     stock = db.Column(db.Integer, default=0)
     image_url = db.Column(db.String(200))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+class Order(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+
+    customer_name = db.Column(db.String(120), nullable=False)
+    customer_email = db.Column(db.String(120), nullable=False)
+
+    product_id = db.Column(
+        db.Integer,
+        db.ForeignKey("product.id"),
+        nullable=False
+    )
+
+    quantity = db.Column(db.Integer, nullable=False, default=1)
+    status = db.Column(db.String(50), nullable=False, default="Pending")
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    product = db.relationship(
+        "Product",
+        backref=db.backref("orders", lazy=True)
+    )
+
+    @property
+    def total_price(self):
+        return self.product.price * self.quantity

@@ -5,71 +5,107 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link
-    rel="stylesheet"
-    href="{{ url_for('static', filename='css/styles.css') }}"
->
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/styles.css') }}"
+    >
 
     <title>Product Listing</title>
 </head>
 
 <body>
+
     <header>
         <h1>Product Listing</h1>
         <p>Browse our available products.</p>
     </header>
 
-```
-<main>
-    {% if products %}
-        {% for product in products %}
-            <section>
-                {% if product.image_url %}
-                    {% if product.image_url.startswith("http") %}
-                        <img
-                            src="{{ product.image_url }}"
-                            alt="{{ product.name }}"
-                            width="250"
-                        >
+    <main>
+
+        {% if products %}
+
+            {% for product in products %}
+
+                <section>
+
+                    {% if product.image_url %}
+                        {% if product.image_url.startswith("http") %}
+                            <img
+                                src="{{ product.image_url }}"
+                                alt="{{ product.name }}"
+                                width="250"
+                            >
+                        {% else %}
+                            <img
+                                src="{{ url_for('static', filename='images/' + product.image_url) }}"
+                                alt="{{ product.name }}"
+                                width="250"
+                            >
+                        {% endif %}
                     {% else %}
-                        <img
-                            src="{{ url_for('static', filename='images/' + product.image_url) }}"
-                            alt="{{ product.name }}"
-                            width="250"
-                        >
+                        <div class="image-placeholder">
+                            No image available
+                        </div>
                     {% endif %}
-                {% else %}
-                    <div class="image-placeholder">
-                        No image available
-                    </div>
-                {% endif %}
 
-                <h2>{{ product.name }}</h2>
+                    <h2>{{ product.name }}</h2>
 
-                <p>
-                    {{ product.description or "No description available." }}
-                </p>
+                    <p>
+                        {{ product.description or "No description available." }}
+                    </p>
 
-                <p>
-                    <strong>${{ "%.2f"|format(product.price) }}</strong>
-                </p>
+                    <p>
+                        <strong>${{ "%.2f"|format(product.price) }}</strong>
+                    </p>
 
-                <p>
-                    {% if product.stock <= 0 %}
-                        <strong>Out of stock</strong>
-                    {% elif product.stock <= 5 %}
-                        <strong>Low stock: {{ product.stock }} remaining</strong>
+                    <p>
+                        {% if product.stock <= 0 %}
+                            <strong>Out of Stock</strong>
+                        {% elif product.stock <= 5 %}
+                            <strong>Low Stock:</strong>
+                            {{ product.stock }} remaining
+                        {% else %}
+                            In Stock:
+                            {{ product.stock }} available
+                        {% endif %}
+                    </p>
+
+                    {% if product.stock > 0 %}
+                        <p>
+                            <a
+                                class="button-link"
+                                href="{{ url_for('orders.create_order', product_id=product.id) }}"
+                            >
+                                Order Now
+                            </a>
+                        </p>
                     {% else %}
-                        In stock: {{ product.stock }} available
+                        <p>
+                            <span class="disabled-button">
+                                Unavailable
+                            </span>
+                        </p>
                     {% endif %}
-                </p>
-            </section>
-        {% endfor %}
-    {% else %}
-        <p>No products are currently available.</p>
-    {% endif %}
-</main>
-```
+
+                </section>
+
+            {% endfor %}
+
+        {% else %}
+
+            <p>No products are currently available.</p>
+
+        {% endif %}
+
+        <p class="manage-orders-link">
+            <a
+                class="button-link"
+                href="{{ url_for('orders.order_list') }}"
+            >
+                View Order Management
+            </a>
+        </p>
+
+    </main>
 
 </body>
-
 </html>

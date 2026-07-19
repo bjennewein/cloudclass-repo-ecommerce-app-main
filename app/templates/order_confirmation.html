@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/styles.css') }}"
+    >
+
+    <title>Order Confirmation</title>
+</head>
+
+<body>
+    <header>
+        <h1>Order Submitted</h1>
+        <p>Thank you for your purchase.</p>
+    </header>
+
+    <main class="order-page">
+        <section class="confirmation-card">
+            <h2>Order #{{ order.id }}</h2>
+
+            <p>
+                <strong>Customer:</strong>
+                {{ order.customer_name }}
+            </p>
+
+            <p>
+                <strong>Email:</strong>
+                {{ order.customer_email }}
+            </p>
+
+            <p>
+                <strong>Product:</strong>
+                {{ order.product.name }}
+            </p>
+
+            <p>
+                <strong>Quantity:</strong>
+                {{ order.quantity }}
+            </p>
+
+            <p>
+                <strong>Total:</strong>
+                ${{ "%.2f"|format(order.total_price) }}
+            </p>
+
+            <p>
+                <strong>Status:</strong>
+                {{ order.status }}
+            </p>
+
+            <p>
+                <strong>Order Date:</strong>
+                {{ order.created_at.strftime("%B %d, %Y at %I:%M %p") }}
+            </p>
+
+            <div class="button-group">
+                <a
+                    class="button-link"
+                    href="{{ url_for('products.product_listing') }}"
+                >
+                    Continue Shopping
+                </a>
+
+                <a
+                    class="button-link"
+                    href="{{ url_for('orders.order_list') }}"
+                >
+                    Manage Orders
+                </a>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
