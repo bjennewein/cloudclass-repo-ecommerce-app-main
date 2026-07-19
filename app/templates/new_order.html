@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/styles.css') }}"
+    >
+
+    <title>Place Order</title>
+</head>
+
+<body>
+    <header>
+        <h1>Place Your Order</h1>
+        <p>Complete the form below to order {{ product.name }}.</p>
+    </header>
+
+    <main class="order-page">
+        <section class="order-card">
+            {% if product.image_url %}
+                {% if product.image_url.startswith("http") %}
+                    <img
+                        src="{{ product.image_url }}"
+                        alt="{{ product.name }}"
+                        width="250"
+                    >
+                {% else %}
+                    <img
+                        src="{{ url_for('static', filename='images/' + product.image_url) }}"
+                        alt="{{ product.name }}"
+                        width="250"
+                    >
+                {% endif %}
+            {% endif %}
+
+            <h2>{{ product.name }}</h2>
+
+            <p>{{ product.description }}</p>
+
+            <p>
+                <strong>Price:</strong>
+                ${{ "%.2f"|format(product.price) }}
+            </p>
+
+            <p>
+                <strong>Available:</strong>
+                {{ product.stock }}
+            </p>
+
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div class="flash-message">
+                        {% for message in messages %}
+                            <p>{{ message }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            {% if product.stock > 0 %}
+                <form method="POST">
+                    <label for="customer_name">Customer Name</label>
+                    <input
+                        type="text"
+                        id="customer_name"
+                        name="customer_name"
+                        required
+                    >
+
+                    <label for="customer_email">Email Address</label>
+                    <input
+                        type="email"
+                        id="customer_email"
+                        name="customer_email"
+                        required
+                    >
+
+                    <label for="quantity">Quantity</label>
+                    <input
+                        type="number"
+                        id="quantity"
+                        name="quantity"
+                        min="1"
+                        max="{{ product.stock }}"
+                        value="1"
+                        required
+                    >
+
+                    <button type="submit">Submit Order</button>
+                </form>
+            {% else %}
+                <p><strong>This product is currently out of stock.</strong></p>
+            {% endif %}
+
+            <p>
+                <a href="{{ url_for('products.product_listing') }}">
+                    Return to Shop
+                </a>
+            </p>
+        </section>
+    </main>
+</body>
+</html>
