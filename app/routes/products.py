@@ -8,27 +8,7 @@ products = Blueprint("products", __name__)
 
 @products.route("/shop", methods=["GET"])
 def product_listing():
-    product_list = [
-        {
-            "name": "Wireless Headphones",
-            "description": "Comfortable Bluetooth headphones with clear sound.",
-            "price": 79.99,
-            "image": "headphones.jpg"
-        },
-        {
-            "name": "Smart Watch",
-            "description": "A lightweight watch for tracking activity and notifications.",
-            "price": 129.99,
-            "image": "smart-watch.jpg"
-        },
-        {
-            "name": "Portable Speaker",
-            "description": "A compact wireless speaker with rich sound.",
-            "price": 49.99,
-            "image": "speaker.jpg"
-        }
-    ]
-
+    product_list = Product.query.all()
     return render_template("products.html", products=product_list)
 
 @products.route("/products", methods=["GET"])
