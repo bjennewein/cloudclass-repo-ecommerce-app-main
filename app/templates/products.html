@@ -18,24 +18,58 @@
         <p>Browse our available products.</p>
     </header>
 
-    <main>
+```
+<main>
+    {% if products %}
         {% for product in products %}
             <section>
-                <img
-                    src="{{ url_for('static', filename='images/' + product.image) }}"
-                    alt="{{ product.name }}"
-                    width="250"
-                >
+                {% if product.image_url %}
+                    {% if product.image_url.startswith("http") %}
+                        <img
+                            src="{{ product.image_url }}"
+                            alt="{{ product.name }}"
+                            width="250"
+                        >
+                    {% else %}
+                        <img
+                            src="{{ url_for('static', filename='images/' + product.image_url) }}"
+                            alt="{{ product.name }}"
+                            width="250"
+                        >
+                    {% endif %}
+                {% else %}
+                    <div class="image-placeholder">
+                        No image available
+                    </div>
+                {% endif %}
 
                 <h2>{{ product.name }}</h2>
 
-                <p>{{ product.description }}</p>
+                <p>
+                    {{ product.description or "No description available." }}
+                </p>
 
                 <p>
                     <strong>${{ "%.2f"|format(product.price) }}</strong>
                 </p>
+
+                <p>
+                    {% if product.stock <= 0 %}
+                        <strong>Out of stock</strong>
+                    {% elif product.stock <= 5 %}
+                        <strong>Low stock: {{ product.stock }} remaining</strong>
+                    {% else %}
+                        In stock: {{ product.stock }} available
+                    {% endif %}
+                </p>
             </section>
         {% endfor %}
-    </main>
+    {% else %}
+        <p>No products are currently available.</p>
+    {% endif %}
+</main>
+```
+
 </body>
+
 </html>
