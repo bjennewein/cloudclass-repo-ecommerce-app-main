@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from flask_login import LoginManager
 
 from config import Config
@@ -27,12 +27,7 @@ def create_app():
 
     @app.route("/")
     def home():
-        return """
-        <h1>Welcome to My Ecommerce App</h1>
-        <p>This app includes user authentication and product management.</p>
-        <p><strong>New feature added:</strong> low-stock product status.</p>
-        <p>To view product data, go to <a href="/products">/products</a>.</p>
-        """
+        return render_template("index.html")
 
     with app.app_context():
         db.create_all()
