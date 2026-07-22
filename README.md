@@ -157,34 +157,25 @@ The application was developed using Python and the Flask web framework with SQLA
 
 ## Product Catalog
 
-<!-- Insert Product Catalog Screenshot Here -->
-
-![Product Catalog](images/product-catalog.png)
+![Product Catalog](app/static/images/product-catalog.png)
 
 ---
 
 ## Order Creation
 
-<!-- Insert Order Creation Screenshot Here -->
-
-![Order Creation](images/order-creation.png)
+![Order Creation](app/static/images/order-creation.png)
 
 ---
 
 ## Order Confirmation
 
-<!-- Insert Order Confirmation Screenshot Here -->
-
-![Order Confirmation](images/order-confirmation.png)
+![Order Confirmation](app/static/images/order-confirmation.png)
 
 ---
 
 ## Order Management
 
-<!-- Insert Order Management Screenshot Here -->
-
-![Order Management](images/order-management.png)
-
+![Order Management](app/static/images/order-management.png)
 ---
 
 # Reflection
