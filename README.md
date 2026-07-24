@@ -191,7 +191,7 @@ No critical issues were discovered during the final testing process. Minor docum
 # Screenshots
 
 ## Home Page
-![Home Page] (app/static/images/home.png)
+![Home PAge](app/static/images/home.png)
 
 
 ## Product Catalog
